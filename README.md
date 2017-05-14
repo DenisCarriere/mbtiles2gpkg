@@ -13,3 +13,14 @@ $ npm install mbtiles2geopackage
 ```bash
 $ mbtiles2geopackage example.mbtiles example.gpkg
 ```
+## Usage
+
+```bash
+$ mbtiles2geopackage --help
+  Usage:
+    $ mbtiles2geopackage <mbtiles> <geopackage>
+  Options:
+    --verbose         [false] Verbose output
+  Examples:
+    $ mbtiles2geopackage example.mbtiles example.gpkg
+```
