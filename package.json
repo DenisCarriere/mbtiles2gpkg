@@ -18,6 +18,7 @@
   "author": "Denis Carriere <@DenisCarriere>",
   "license": "MIT",
   "dependencies": {
+    "fs-extra": "^3.0.1",
     "mbtiles-offline": "^2.8.0",
     "meow": "^3.7.0",
     "sqlite3-offline": "^3.1.18"
