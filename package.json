@@ -19,9 +19,11 @@
   "license": "MIT",
   "dependencies": {
     "mbtiles-offline": "^2.8.0",
-    "meow": "^3.7.0"
+    "meow": "^3.7.0",
+    "sqlite3-offline": "^3.1.18"
   },
   "devDependencies": {
+    "standard": "^10.0.2",
     "tape": "^4.6.3"
   }
 }

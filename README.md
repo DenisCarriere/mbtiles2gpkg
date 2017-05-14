@@ -1,6 +1,6 @@
 # MBTiles to OGC GeoPackage
 
-A NodeJS CLI tool to convert MBTiles to OGC GeoPackage.
+A [NodeJS 7.x](https://nodejs.org/en/) CLI tool to convert MBTiles to OGC GeoPackage.
 
 ## Install
 

@@ -13,3 +13,8 @@ const cli = meow(`
   alias: {v: 'verbose'},
   boolean: ['verbose']
 })
+
+const mbtiles = cli.input[0]
+const geopackage = cli.input[1]
+
+mbtiles2geopackage(mbtiles, geopackage)
