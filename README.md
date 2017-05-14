@@ -16,7 +16,10 @@ $ mbtiles2geopackage example.mbtiles example.gpkg
 ## Usage
 
 ```bash
-$ mbtiles2geopackage --help
+$ node mbtiles2geopackage --help
+
+  MBTiles to OGC GeoPackage
+
   Usage:
     $ mbtiles2geopackage <mbtiles> <geopackage>
   Options:
