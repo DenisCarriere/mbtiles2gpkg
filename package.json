@@ -1,6 +1,6 @@
 {
   "name": "mbtiles2gpkg",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MBTiles to OGC GeoPackage",
   "main": "index.js",
   "types": "index.d.ts",
@@ -16,7 +16,7 @@
     "lint": "standard"
   },
   "bin": {
-    "mbtiles2geopackage": "bin/mbtiles2gpkg.js"
+    "mbtiles2gpkg": "bin/mbtiles2gpkg.js"
   },
   "author": "Denis Carriere <@DenisCarriere>",
   "license": "MIT",

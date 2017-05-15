@@ -1,4 +1,3 @@
-const fs = require('fs-extra')
 const path = require('path')
 const test = require('tape')
 const mbtiles2geopackage = require('./')
