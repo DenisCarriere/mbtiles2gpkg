@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
-const {connect} = require('mbtiles-offline/utils')
+const {tileToGoogle} = require('global-mercator')
+const GeoPackage = require('geopackage')
 const MBTiles = require('mbtiles-offline')
 
 /**
@@ -10,7 +11,7 @@ const MBTiles = require('mbtiles-offline')
  * @param {*} options options
  * @returns {void}
  */
-async function mbtiles2geopackage (mbtiles, geopackage, options = {}) {
+async function mbtiles2gpkg (mbtiles, geopackage, options = {}) {
   if (!fs.existsSync(mbtiles)) throw new Error('<mbtiles> does not exist')
 
   const db = new MBTiles(mbtiles)
@@ -23,28 +24,28 @@ async function mbtiles2geopackage (mbtiles, geopackage, options = {}) {
   if (!metadata.description) throw new Error('<description> is required in metadata of MBTiles')
   if (!metadata.format) throw new Error('<format> is required in metadata of MBTiles')
 
-  await fs.copy(mbtiles, geopackage)
-  updateGeoPackage(geopackage, metadata)
+  return saveGeoPackage(db, geopackage, metadata)
 }
 
 /**
  * Update Medata of GeoPackage
  *
+ * @param {MBTiles} mbtiles
  * @param {string} filepath
  * @return {void}
  */
-function updateGeoPackage(geopackage, metadata) {
-  const db = connect(geopackage)
-  console.log(db)
+async function saveGeoPackage (mbtiles, geopackage, metadata) {
+  const gpkg = new GeoPackage(geopackage)
+  metadata.name = 'tiles'
+  await gpkg.update(metadata)
+
+  // MBTiles uses TMS & GeoPackage uses Google tile schema
+  const tiles = await mbtiles.findAll()
+  for (const tile of tiles) {
+    const image = await mbtiles.findOne(tile)
+    await gpkg.save(tileToGoogle(tile), image)
+  }
+  return true
 }
 
-// CREATE TABLE gpkg_spatial_ref_sys (
-//   srs_name TEXT NOT NULL,
-//   srs_id INTEGER NOT NULL PRIMARY KEY,
-//   organization TEXT NOT NULL,
-//   organization_coordsys_id INTEGER NOT NULL,
-//   definition  TEXT NOT NULL,
-//   description TEXT
-// );
-
-module.exports = mbtiles2geopackage
+module.exports = mbtiles2gpkg

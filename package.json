@@ -1,5 +1,5 @@
 {
-  "name": "mbtiles2geopackage",
+  "name": "mbtiles2gpkg",
   "version": "0.1.0",
   "description": "MBTiles to OGC GeoPackage",
   "main": "index.js",
@@ -10,20 +10,25 @@
     "bin"
   ],
   "scripts": {
-    "test": "node test.js"
+    "prepublish": "npm run lint && npm run types && npm run test",
+    "types": "tsc index.d.ts --lib es6",
+    "test": "node test.js",
+    "lint": "standard"
   },
   "bin": {
-    "mbtiles2geopackage": "bin/mbtiles2geopackage.js"
+    "mbtiles2geopackage": "bin/mbtiles2gpkg.js"
   },
   "author": "Denis Carriere <@DenisCarriere>",
   "license": "MIT",
   "dependencies": {
     "fs-extra": "^3.0.1",
+    "geopackage": "^0.1.1",
     "mbtiles-offline": "^2.8.0",
     "meow": "^3.7.0",
     "sqlite3-offline": "^3.1.18"
   },
   "devDependencies": {
+    "global-mercator": "^2.7.0",
     "standard": "^10.0.2",
     "tape": "^4.6.3"
   }

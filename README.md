@@ -5,25 +5,25 @@ A [NodeJS 7.x](https://nodejs.org/en/) CLI tool to convert MBTiles to OGC GeoPac
 ## Install
 
 ```bash
-$ npm install mbtiles2geopackage
+$ npm install mbtiles2gpkg
 ```
 
 ## Quickstart
 
 ```bash
-$ mbtiles2geopackage example.mbtiles example.gpkg
+$ mbtiles2gpkg example.mbtiles example.gpkg
 ```
 ## Usage
 
 ```bash
-$ node mbtiles2geopackage --help
+$ node mbtiles2gpkg --help
 
   MBTiles to OGC GeoPackage
 
   Usage:
-    $ mbtiles2geopackage <mbtiles> <geopackage>
+    $ mbtiles2gpkg <mbtiles> <geopackage>
   Options:
     --verbose         [false] Verbose output
   Examples:
-    $ mbtiles2geopackage example.mbtiles example.gpkg
+    $ mbtiles2gpkg example.mbtiles example.gpkg
 ```
