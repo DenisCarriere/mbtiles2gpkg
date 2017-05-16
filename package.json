@@ -1,6 +1,6 @@
 {
   "name": "mbtiles2gpkg",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MBTiles to OGC GeoPackage",
   "main": "index.js",
   "types": "index.d.ts",
@@ -21,7 +21,6 @@
   "author": "Denis Carriere <@DenisCarriere>",
   "license": "MIT",
   "dependencies": {
-    "fs-extra": "^3.0.1",
     "geopackage": "^0.1.1",
     "mbtiles-offline": "^2.8.0",
     "meow": "^3.7.0",

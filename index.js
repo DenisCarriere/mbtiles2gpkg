@@ -1,4 +1,4 @@
-const fs = require('fs-extra')
+const fs = require('fs')
 const {tileToGoogle} = require('global-mercator')
 const GeoPackage = require('geopackage')
 const MBTiles = require('mbtiles-offline')
@@ -9,7 +9,7 @@ const MBTiles = require('mbtiles-offline')
  * @param {string} mbtiles filepath
  * @param {string} geopackage filepath
  * @param {*} options options
- * @returns {void}
+ * @returns {Promise<boolean>}
  */
 async function mbtiles2gpkg (mbtiles, geopackage, options = {}) {
   if (!fs.existsSync(mbtiles)) throw new Error('<mbtiles> does not exist')
@@ -32,7 +32,7 @@ async function mbtiles2gpkg (mbtiles, geopackage, options = {}) {
  *
  * @param {MBTiles} mbtiles
  * @param {string} filepath
- * @return {void}
+ * @return {Promise<boolean>}
  */
 async function saveGeoPackage (mbtiles, geopackage, metadata) {
   const gpkg = new GeoPackage(geopackage)
