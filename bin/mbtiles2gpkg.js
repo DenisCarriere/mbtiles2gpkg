@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
+const path = require('path')
 const meow = require('meow')
-const mbtiles2geopackage = require('../')
 const ProgressBar = require('progress')
+const mbtiles2geopackage = require('../')
 
 const cli = meow(`
   Usage:
-    $ mbtiles2gpkg <MBTiles> <GeoPackage>
+    $ mbtiles2gpkg <MBTiles> [GeoPackage]
   Options:
     --interval        [64]    Update time interval in milliseconds
     --verbose         [false] Verbose output
@@ -18,7 +19,11 @@ const cli = meow(`
 })
 
 const mbtiles = cli.input[0]
-const geopackage = cli.input[1]
+let geopackage = cli.input[1]
+if (!geopackage) {
+  const {dir, name} = path.parse(mbtiles)
+  geopackage = path.join(dir, name + '.gpkg')
+}
 const verbose = cli.flags.verbose
 const interval = cli.flags.interval
 
