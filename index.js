@@ -1,7 +1,10 @@
 const fs = require('fs')
-const {tileToGoogle} = require('global-mercator')
-const GeoPackage = require('geopackage')
+const path = require('path')
+const mkdirp = require('mkdirp')
 const MBTiles = require('mbtiles-offline')
+const GeoPackage = require('geopackage')
+const {tileToGoogle} = require('global-mercator')
+const {EventEmitter} = require('events')
 
 /**
  * MBTiles to OGC GeoPackage
@@ -9,43 +12,66 @@ const MBTiles = require('mbtiles-offline')
  * @param {string} mbtiles filepath
  * @param {string} geopackage filepath
  * @param {*} options options
- * @returns {Promise<boolean>}
+ * @param {number} [options.interval=64] Update time interval in milliseconds
+ * @returns {EventEmitter}
  */
-async function mbtiles2gpkg (mbtiles, geopackage, options = {}) {
+function mbtiles2gpkg (mbtiles, geopackage, options = {}) {
   if (!fs.existsSync(mbtiles)) throw new Error('<mbtiles> does not exist')
 
   const db = new MBTiles(mbtiles)
-  const metadata = await db.metadata()
+  const ee = new EventEmitter()
+  const interval = options.interval || 64
+  let current = 0
+  let errors = 0
+  let total = 0
+  let timer
 
-  // Validate MBTiles Metadata
-  if (!metadata.name) throw new Error('<name> is required in metadata of MBTiles')
-  if (!metadata.type) throw new Error('<type> is required in metadata of MBTiles')
-  if (!metadata.version) throw new Error('<version> is required in metadata of MBTiles')
-  if (!metadata.description) throw new Error('<description> is required in metadata of MBTiles')
-  if (!metadata.format) throw new Error('<format> is required in metadata of MBTiles')
+  async function prestart () {
+    // Calculate total tiles in MBTiles
+    await db.validate()
+    total = await db.count()
 
-  return saveGeoPackage(db, geopackage, metadata)
-}
+    // Create Folder if not exists
+    const {dir} = path.parse(geopackage)
+    if (!fs.existsSync(dir)) mkdirp.sync(dir)
 
-/**
- * Update Medata of GeoPackage
- *
- * @param {MBTiles} mbtiles
- * @param {string} filepath
- * @return {Promise<boolean>}
- */
-async function saveGeoPackage (mbtiles, geopackage, metadata) {
-  const gpkg = new GeoPackage(geopackage)
-  metadata.name = 'tiles'
-  await gpkg.update(metadata)
-
-  // MBTiles uses TMS & GeoPackage uses Google tile schema
-  const tiles = await mbtiles.findAll()
-  for (const tile of tiles) {
-    const image = await mbtiles.findOne(tile)
-    await gpkg.save(tileToGoogle(tile), image)
+    start()
   }
-  return true
+
+  async function start () {
+    ee.emit('start', {current, errors, total})
+
+    // Start Update counter
+    timer = setInterval(update, interval)
+
+    // Update GeoPackage Metadata
+    const metadata = await db.metadata()
+    const gpkg = new GeoPackage(geopackage)
+    metadata.name = 'tiles'
+    await gpkg.update(metadata)
+
+    // Save each Tile from MBTiles to GeoPackage
+    const tiles = await db.findAll()
+    for (const tile of tiles) {
+      const image = await db.findOne(tile)
+      await gpkg.save(tileToGoogle(tile), image)
+      current++
+    }
+    shutdown()
+  }
+
+  function update () {
+    if (options.verbose === false) return
+    ee.emit('update', {current, errors, total})
+  }
+
+  function shutdown () {
+    clearTimeout(timer)
+    ee.emit('end', {current, errors, total})
+  }
+
+  setTimeout(() => prestart())
+  return ee
 }
 
 module.exports = mbtiles2gpkg

@@ -1,12 +1,26 @@
+/// <reference types="node" />
+
+const fs = require('fs')
 const path = require('path')
-const test = require('tape')
+const {test} = require('tap')
 const mbtiles2geopackage = require('./')
 
-const directory = path.join(__dirname, 'test') + path.sep
+const directories = {
+  in: path.join(__dirname, 'test', 'in') + path.sep,
+  out: path.join(__dirname, 'test', 'out') + path.sep
+}
 
-test('mbtiles2geopackage', async t => {
-  await mbtiles2geopackage(directory + 'world_zoom_0-2.mbtiles', directory + 'world_zoom_0-2.gpkg')
-  await mbtiles2geopackage(directory + 'canada_zoom_0-3.mbtiles', directory + 'canada_zoom_0-3.gpkg')
-  await mbtiles2geopackage(directory + 'fiji_zoom_0-4.mbtiles', directory + 'fiji_zoom_0-4.gpkg')
-  t.end()
+const fixtures = fs.readdirSync(directories.in).map(filename => {
+  return {
+    filename,
+    name: path.parse(filename).name
+  }
 })
+
+for (const {filename, name} of fixtures) {
+  test(name, t => {
+    const ee = mbtiles2geopackage(directories.in + filename, directories.out + name + '.gpkg')
+    ee.on('start', status => t.assert(status))
+    ee.on('end', status => t.end())
+  })
+}

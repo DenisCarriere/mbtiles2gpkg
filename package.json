@@ -1,6 +1,6 @@
 {
   "name": "mbtiles2gpkg",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "MBTiles to OGC GeoPackage",
   "main": "index.js",
   "types": "index.d.ts",
@@ -10,10 +10,9 @@
     "bin"
   ],
   "scripts": {
-    "prepublish": "npm run lint && npm run types && npm run test",
-    "types": "tsc index.d.ts --lib es6",
-    "test": "node test.js",
-    "lint": "standard"
+    "pretest": "standard",
+    "test": "tap test.js",
+    "types": "tsc index.d.ts types.ts --lib es6"
   },
   "bin": {
     "mbtiles2gpkg": "bin/mbtiles2gpkg.js"
@@ -24,11 +23,17 @@
     "geopackage": "^0.1.1",
     "mbtiles-offline": "^2.8.0",
     "meow": "^3.7.0",
+    "mkdirp": "^0.5.1",
+    "progress": "^2.0.0",
     "sqlite3-offline": "^3.1.18"
   },
   "devDependencies": {
-    "global-mercator": "^2.7.0",
+    "@types/node": "^7.0.22",
     "standard": "^10.0.2",
-    "tape": "^4.6.3"
+    "tap": "^10.3.2",
+    "typescript": "^2.3.3"
+  },
+  "engines": {
+    "node": ">=7.0.0"
   }
 }
