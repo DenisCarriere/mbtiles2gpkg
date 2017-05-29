@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const {test} = require('tap')
-const mbtiles2geopackage = require('./')
+const mbtiles2gpkg = require('./')
 
 const directories = {
   in: path.join(__dirname, 'test', 'in') + path.sep,
@@ -19,8 +19,9 @@ const fixtures = fs.readdirSync(directories.in).map(filename => {
 
 for (const {filename, name} of fixtures) {
   test(name, t => {
-    const ee = mbtiles2geopackage(directories.in + filename, directories.out + name + '.gpkg')
-    ee.on('start', status => t.assert(status))
+    const ee = mbtiles2gpkg(directories.in + filename, directories.out + name + '.gpkg', {interval: 16})
+    ee.on('start', status => t.true(status.total > 0))
+    ee.on('update', status => t.true(status.total > 0))
     ee.on('end', status => t.end())
   })
 }

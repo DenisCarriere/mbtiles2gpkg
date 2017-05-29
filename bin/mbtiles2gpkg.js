@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const path = require('path')
 const meow = require('meow')
 const ProgressBar = require('progress')
 const mbtiles2geopackage = require('../')
@@ -10,26 +9,21 @@ const cli = meow(`
     $ mbtiles2gpkg <MBTiles> [GeoPackage]
   Options:
     --interval        [64]    Update time interval in milliseconds
-    --verbose         [false] Verbose output
+    --silent          [false] Disables progress bar output
   Examples:
-    $ mbtiles2gpkg example.mbtiles example.gpkg
+    $ mbtiles2gpkg example.mbtiles
 `, {
-  alias: {v: 'verbose'},
-  boolean: ['verbose']
+  boolean: ['silent']
 })
 
 const mbtiles = cli.input[0]
 let geopackage = cli.input[1]
-if (!geopackage) {
-  const {dir, name} = path.parse(mbtiles)
-  geopackage = path.join(dir, name + '.gpkg')
-}
-const verbose = cli.flags.verbose
+const silent = cli.flags.silent
 const interval = cli.flags.interval
 
 const ee = mbtiles2geopackage(mbtiles, geopackage, {interval})
 
-if (verbose) {
+if (!silent) {
   ee.on('start', ({total}) => {
     const bar = new ProgressBar('  converting [:bar] :rate/bps :percent :etas', {
       complete: '=',
