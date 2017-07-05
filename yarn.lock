@@ -42,8 +42,8 @@ acorn@^3.0.4:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
 
 acorn@^5.0.1:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.0.3.tgz#c460df08491463f028ccb82eab3730bf01087b3d"
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.1.0.tgz#e468bf609b0672700e02f878ae2f1b360fe24b4f"
 
 ajv-keywords@^1.0.0:
   version "1.5.1"
@@ -1542,9 +1542,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-mbtiles-offline@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/mbtiles-offline/-/mbtiles-offline-3.0.1.tgz#dc9f2c963e4cd28780798940582edc4e71eb42e8"
+mbtiles-offline@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/mbtiles-offline/-/mbtiles-offline-3.0.2.tgz#bdad015c615d1fcc8067605cded88b91fdf9161e"
   dependencies:
     "@mapbox/tiletype" "^0.3.1"
     "@turf/bbox" "^3.10.3"
