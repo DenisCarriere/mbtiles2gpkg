@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0 - 2017-07-05
+
+- Upgrade `mbtiles-offline` v3
+
 ## 1.1.0 - 2017-05-29
 
 - Add Badges

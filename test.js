@@ -1,8 +1,7 @@
-/// <reference types="node" />
-
 const fs = require('fs')
 const path = require('path')
 const {test} = require('tap')
+const GeoPackage = require('geopackage')
 const mbtiles2gpkg = require('./')
 
 const directories = {
@@ -25,3 +24,9 @@ for (const {filename, name} of fixtures) {
     ee.on('end', status => t.end())
   })
 }
+
+test('Read GeoPackage', async t => {
+  const gpkg = new GeoPackage(directories.out + 'world_zoom_0-2.gpkg')
+  t.equal((await gpkg.findOne([0, 0, 1])).byteLength, 48143)
+  t.end()
+})

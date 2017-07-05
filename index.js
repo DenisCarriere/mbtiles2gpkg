@@ -4,7 +4,6 @@ const path = require('path')
 const mkdirp = require('mkdirp')
 const MBTiles = require('mbtiles-offline')
 const GeoPackage = require('geopackage')
-const {tileToGoogle} = require('global-mercator')
 const {EventEmitter} = require('events')
 
 /**
@@ -65,7 +64,7 @@ function mbtiles2gpkg (mbtiles, geopackage, options = {}) {
           for (const tile of tiles) {
             q.defer(callback => {
               db.findOne(tile).then(image => {
-                gpkg.save(tileToGoogle(tile), image).then(() => {
+                gpkg.save(tile, image).then(() => {
                   current++
                   callback(null)
                 })

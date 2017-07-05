@@ -1,6 +1,6 @@
 {
   "name": "mbtiles2gpkg",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "MBTiles to OGC GeoPackage",
   "main": "index.js",
   "types": "index.d.ts",
@@ -22,8 +22,7 @@
   "dependencies": {
     "d3-queue": "^3.0.7",
     "geopackage": "^1.0.0",
-    "global-mercator": "^2.7.0",
-    "mbtiles-offline": "^2.8.0",
+    "mbtiles-offline": "^3.0.1",
     "meow": "^3.7.0",
     "mkdirp": "^0.5.1",
     "progress": "^2.0.0"
@@ -31,7 +30,7 @@
   "devDependencies": {
     "@types/node": "^7.0.22",
     "standard": "^10.0.2",
-    "tap": "^10.3.2",
+    "tap": "^10.7.0",
     "typescript": "^2.3.3"
   },
   "engines": {
